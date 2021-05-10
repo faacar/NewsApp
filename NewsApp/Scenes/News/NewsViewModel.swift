@@ -25,6 +25,7 @@ final class NewsViewModel {
     
     func loadNews(key: String?, type: ListType, page: Int) {
         service.getNews(keyWords: key ?? "home", page: page, type: type) { result in
+            self.delegate?.apiRequestCompleted()
             switch result {
             case .success(let news):
                 self.news = news
@@ -32,7 +33,6 @@ final class NewsViewModel {
             case .failure(let error):
                 print(error)
             }
-            self.delegate?.apiRequestCompleted()
         }
     }
 

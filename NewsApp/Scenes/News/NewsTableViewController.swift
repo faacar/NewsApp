@@ -6,34 +6,19 @@
 //
 
 import UIKit
+import SnapKit
 
-final class NewsTableViewController: UIViewController, NewsViewModelDelegate {
+final class NewsTableViewController: UIViewController {
     
-    func apiRequestCompleted() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-            //self.stopLoading()
-        }
-    }
-    
-
     var tableView = UITableView()
     var viewModel: NewsViewModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(tableView)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "newsList")
+        configureTableView()
+        showLoadingView()
         
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        tableView.backgroundColor = .systemRed
-        tableView.rowHeight = 60
-        
-        //configureTableView()
         viewModel = NewsViewModel(delegate: self)
-        view.backgroundColor = .systemYellow
         viewModel?.loadNews(key: "istanbul", type: .search, page: 1)
     }
     
@@ -43,20 +28,37 @@ final class NewsTableViewController: UIViewController, NewsViewModelDelegate {
     }
     
     private func configureTableView() {
+        view.addSubview(tableView)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "newsList")
+        tableView.rowHeight = 60
         //tableView.register(NewsCell.self, forCellReuseIdentifier: NewsCell.cellId)
     }
-
-    // MARK: - Table view data source
 }
 
+//MARK: - Edxtension NewsViewModelDelegate
+
+extension NewsTableViewController: NewsViewModelDelegate {
+    
+    func apiRequestCompleted() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.dismissLoadingView()
+        }
+    }
+}
+
+// MARK: - Extension UITableViewDataSource & UITableViewDelegate
+
 extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsList",for: indexPath)
         let cellItem = viewModel?.getData(row: indexPath.row)
         cell.textLabel?.text = cellItem?.title!
         return cell
     }
-    
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
