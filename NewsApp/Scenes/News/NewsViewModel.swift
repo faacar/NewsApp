@@ -18,10 +18,9 @@ final class NewsViewModel {
     let cache = NSCache<NSString, UIImage>()
 
     weak var delegate: NewsViewModelDelegate?
-    private var news: [Articles] = []
-    
-    private var filteredNews: [Articles] = []    
     private var service = NetworkManager()
+    
+    var news: [Articles] = []
     
     init(delegate: NewsViewModelDelegate) {
         self.delegate = delegate
@@ -34,7 +33,6 @@ final class NewsViewModel {
             switch result {
             case .success(let news):
                 self.news = news
-                //self.loadData(data: news)
             case .failure(let error):
                 print(error)
             }
@@ -49,25 +47,7 @@ final class NewsViewModel {
         return imageResult
     }
 
-    func getNumberOfRows(isSearched: Bool) -> Int {
-        return isSearched ? filteredNews.count : news.count
+    func getNumberOfRows() -> Int {
+        return news.count
     }
-
-    
-    func setFilteredData(filteredData: [Articles]) {
-        filteredNews = filteredData
-    }
-    
-    func getFilteredData(row: Int) -> Articles {
-        return filteredNews[row]
-    }
-    
-    func getData(row: Int) -> Articles {
-        return news[row]
-    }
-    
-    func getData() -> [Articles] {
-        return news
-    }
-
 }

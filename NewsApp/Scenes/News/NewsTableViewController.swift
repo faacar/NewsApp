@@ -11,9 +11,8 @@ final class NewsTableViewController: UIViewController {
     
     var tableView = UITableView()
     var viewModel: NewsViewModel!
-    var filteredNews: [Articles] = []
-    var isSearched = false
-    
+    var searchedText: String = ""
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
@@ -21,7 +20,6 @@ final class NewsTableViewController: UIViewController {
         configureSearchController()
         title = "Appcent News App"
         viewModel = NewsViewModel(delegate: self)
-        viewModel?.loadNews(key: "uk", type: .search, page: 1)
     }
     
     override func viewDidLayoutSubviews() {
@@ -31,7 +29,6 @@ final class NewsTableViewController: UIViewController {
     
     private func configureSearchController() {
         let searchController = UISearchController()
-        searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         searchController.searchBar.placeholder = "Search different news"
         navigationItem.searchController = searchController
@@ -64,17 +61,11 @@ extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NewsCell.cellId,for: indexPath) as! NewsCell
-        //let cellItem = viewModel.getData(row: indexPath.row)
-        let cellItem: Articles?
-        if isSearched {
-            cellItem = viewModel.getFilteredData(row: indexPath.row)
-        } else {
-            cellItem = viewModel.getData(row: indexPath.row)
-        }
+        let cellItem = viewModel.news[indexPath.row]
         
-        cell.title.text = cellItem?.title
-        cell.newsDescription.text = cellItem?.description
-        cell.newsImage.image = viewModel.loadImage(newsImageString: cellItem?.image ?? "")
+        cell.title.text = cellItem.title
+        cell.newsDescription.text = cellItem.description
+        cell.newsImage.image = viewModel.loadImage(newsImageString: cellItem.image ?? "")
 
         return cell
     }
@@ -90,7 +81,7 @@ extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.getNumberOfRows(isSearched: isSearched) ?? 0
+        return viewModel?.getNumberOfRows() ?? 0
     }
     
 //    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -100,20 +91,17 @@ extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
 
 //MARK: - Extension UISearchResultsUPdating & UISearchControllerDelegate
 
-extension NewsTableViewController: UISearchResultsUpdating, UISearchBarDelegate {
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let searchText = searchController.searchBar.text, !searchText.isEmpty else { return }
-        print(searchText)
-        let res = viewModel.getData().filter { ($0.title?.lowercased().contains(searchText.lowercased()) ?? false) }
-        
-        viewModel.setFilteredData(filteredData: res)
-        isSearched = true
-        tableView.reloadData()
+extension NewsTableViewController: UISearchBarDelegate {
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.searchedText = searchText
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(self.searchNewText), object: nil)
+        perform(#selector(self.searchNewText), with: nil, afterDelay: 0.5)
     }
     
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        isSearched = false
-        tableView.reloadData()
+    @objc private func searchNewText(text: String) {
+        if self.searchedText.count > 3 {
+            viewModel.loadNews(key: searchedText, type: .search, page: 1)
+        }
     }
 }

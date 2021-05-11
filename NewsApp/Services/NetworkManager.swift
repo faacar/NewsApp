@@ -31,7 +31,7 @@ final class NetworkManager {
             completionHandler(.failure(.invalidUsername))
             return
         }
-        
+        print("URLLLLL---\(url)")
         let session = URLSession.shared
         let dataTask = session.dataTask(with: url) { (data, response, error) in
             if error == nil && data != nil {
