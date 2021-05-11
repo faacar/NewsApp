@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SnapKit
 
 final class NewsTableViewController: UIViewController {
     
@@ -19,7 +18,7 @@ final class NewsTableViewController: UIViewController {
         showLoadingView()
         
         viewModel = NewsViewModel(delegate: self)
-        viewModel?.loadNews(key: "istanbul", type: .search, page: 1)
+        viewModel?.loadNews(key: "uk", type: .search, page: 1)
     }
     
     override func viewDidLayoutSubviews() {
@@ -31,9 +30,8 @@ final class NewsTableViewController: UIViewController {
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "newsList")
-        tableView.rowHeight = 60
-        //tableView.register(NewsCell.self, forCellReuseIdentifier: NewsCell.cellId)
+        tableView.register(NewsCell.self, forCellReuseIdentifier: NewsCell.cellId)
+        tableView.rowHeight = 140 //
     }
 }
 
@@ -54,9 +52,12 @@ extension NewsTableViewController: NewsViewModelDelegate {
 extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "newsList",for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: NewsCell.cellId,for: indexPath) as! NewsCell
         let cellItem = viewModel?.getData(row: indexPath.row)
-        cell.textLabel?.text = cellItem?.title!
+        cell.title.text = cellItem?.title
+        cell.newsDescription.text = cellItem?.description
+        cell.newsImage.image = viewModel?.loadImage(imageUrl: cellItem?.image)
+        
         return cell
     }
 

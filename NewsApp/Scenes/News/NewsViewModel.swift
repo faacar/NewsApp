@@ -7,6 +7,7 @@
 
 
 import Foundation
+import UIKit.UIImageView
 
 protocol NewsViewModelDelegate: class {
     func apiRequestCompleted()
@@ -35,8 +36,15 @@ final class NewsViewModel {
             }
         }
     }
-
     
+    func loadImage(imageUrl: String?) -> UIImage {
+        let imageView = UIImageView()
+        imageView.load(stringURL: imageUrl)
+        if imageView.image == nil {
+            print(imageUrl)
+        }
+        return imageView.image!
+    }
     
     func getNumberOfRows() -> Int {
         return news.count
