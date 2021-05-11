@@ -19,6 +19,8 @@ final class NewsViewModel {
 
     weak var delegate: NewsViewModelDelegate?
     private var news: [Articles] = []
+    
+    private var filteredNews: [Articles] = []    
     private var service = NetworkManager()
     
     init(delegate: NewsViewModelDelegate) {
@@ -47,12 +49,25 @@ final class NewsViewModel {
         return imageResult
     }
 
-    func getNumberOfRows() -> Int {
-        return news.count
+    func getNumberOfRows(isSearched: Bool) -> Int {
+        return isSearched ? filteredNews.count : news.count
+    }
+
+    
+    func setFilteredData(filteredData: [Articles]) {
+        filteredNews = filteredData
+    }
+    
+    func getFilteredData(row: Int) -> Articles {
+        return filteredNews[row]
     }
     
     func getData(row: Int) -> Articles {
         return news[row]
+    }
+    
+    func getData() -> [Articles] {
+        return news
     }
 
 }
