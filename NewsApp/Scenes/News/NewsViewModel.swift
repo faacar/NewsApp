@@ -15,6 +15,8 @@ protocol NewsViewModelDelegate: class {
 
 final class NewsViewModel {
     
+    let cache = NSCache<NSString, UIImage>()
+
     weak var delegate: NewsViewModelDelegate?
     private var news: [Articles] = []
     private var service = NetworkManager()
@@ -36,16 +38,15 @@ final class NewsViewModel {
             }
         }
     }
-    
-    func loadImage(imageUrl: String?) -> UIImage {
-        let imageView = UIImageView()
-        imageView.load(stringURL: imageUrl)
-        if imageView.image == nil {
-            print(imageUrl)
+
+    func loadImage(newsImageString: String) -> UIImage? {
+        var imageResult: UIImage?
+        service.downloadImage(from: newsImageString) { (image) in
+            imageResult = image
         }
-        return imageView.image!
+        return imageResult
     }
-    
+
     func getNumberOfRows() -> Int {
         return news.count
     }

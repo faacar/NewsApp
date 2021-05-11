@@ -29,7 +29,7 @@ final class NewsCell: UITableViewCell {
         image.image = NewsImages.placeholder!
         return image
     }()
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(title)
