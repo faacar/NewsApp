@@ -56,6 +56,7 @@ final class NewsDetailViewController: UIViewController {
     private lazy var newsPageButton: UIButton = {
         let button = UIButton()
         button.setTitle("Keep Reading", for: .normal)
+        button.addTarget(self, action: #selector(newsPageButtonClicked), for: .touchUpInside)
         button.setTitleColor(.black, for: .normal)
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 15.0
@@ -157,6 +158,12 @@ final class NewsDetailViewController: UIViewController {
     }
     
 //MARK: - Button Actions
+    @objc func newsPageButtonClicked() {
+        let destinationVC = WebViewController()
+        destinationVC.url = (viewModel.news?.urlLink)!
+        present(destinationVC, animated: true, completion: nil)
+    }
+    
     @objc func favoriteButtonClicked() {
         print("favorite button clicked")
     }

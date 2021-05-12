@@ -84,9 +84,7 @@ extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //TODO: - Fix the bug (When i going to the new page and coming back, the data page is not updated.)
         let destinationVc = NewsDetailViewController()
-        //maybe dispatch queue
         destinationVc.viewModel.news = viewModel.news[indexPath.row]
-        // here
         navigationController?.pushViewController(destinationVc, animated: true)
     }
 
