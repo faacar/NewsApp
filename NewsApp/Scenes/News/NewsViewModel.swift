@@ -22,10 +22,10 @@ final class NewsViewModel {
     
     var news: [Articles] = []
     
-    init(delegate: NewsViewModelDelegate) {
-        self.delegate = delegate
-        loadNews(key: nil, type: .listHeadlines, page: 1)
-    }
+//    init(delegate: NewsViewModelDelegate) {
+//        self.delegate = delegate
+//        loadNews(key: nil, type: .listHeadlines, page: 1)
+//    }
     
     func loadNews(key: String?, type: ListType, page: Int) {
         service.getNews(keyWords: key ?? "home", page: page, type: type) { result in

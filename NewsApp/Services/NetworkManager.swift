@@ -18,7 +18,7 @@ final class NetworkManager {
     
     let cache = NSCache<NSString, UIImage>()
     private let baseURL = "https://newsapi.org/v2"
-    private let apiKey = "44f5a016b63440daa678e233a475b97f"
+    private let apiKey = "74778516aab3476f9006044d2d25e76e"
     
 
     func getNews(keyWords: String, page: Int, type: ListType, completionHandler: @escaping (Result<[Articles], NewsError>) -> Void) {

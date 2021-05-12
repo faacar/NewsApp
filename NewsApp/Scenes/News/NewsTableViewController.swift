@@ -10,7 +10,7 @@ import UIKit
 final class NewsTableViewController: UIViewController {
     
     var tableView = UITableView()
-    var viewModel: NewsViewModel!
+    var viewModel = NewsViewModel()
     var searchedText: String = ""
     var page = 1
 
@@ -20,7 +20,9 @@ final class NewsTableViewController: UIViewController {
         showLoadingView()
         configureSearchController()
         title = "Appcent News App"
-        viewModel = NewsViewModel(delegate: self)
+        viewModel.delegate = self
+        viewModel.loadNews(key: nil, type: .listHeadlines, page: 1)
+        //viewModel = NewsViewModel(delegate: self)
     }
     
     override func viewDidLayoutSubviews() {
@@ -73,7 +75,10 @@ extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //TODO: - Fix the bug (When i going to the new page and coming back, the data page is not updated.)
-        let destinationVc = FavoritesViewController()
+        let destinationVc = NewsDetailViewController()
+        //maybe dispatch queue
+        destinationVc.viewModel.news = viewModel.news[indexPath.row]
+        // here
         navigationController?.pushViewController(destinationVc, animated: true)
     }
 
@@ -82,7 +87,7 @@ extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.getNumberOfRows() ?? 0
+        return viewModel.getNumberOfRows()
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -109,6 +114,7 @@ extension NewsTableViewController: UISearchBarDelegate {
     
     @objc private func searchNewText(text: String) {
         if self.searchedText.count > 3 {
+            viewModel.news = []
             viewModel.loadNews(key: searchedText, type: .search, page: page)
         }
     }
