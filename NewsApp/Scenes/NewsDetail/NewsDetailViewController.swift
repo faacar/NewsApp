@@ -43,13 +43,13 @@ final class NewsDetailViewController: UIViewController {
     }()
     
     private lazy var authorView = NewsAdditionalInfoView(text: viewModel.news?.author ?? "Unknown", contentType: .authorInfoView)
+    
     private lazy var dateView = NewsAdditionalInfoView(text: viewModel.news?.publishDate ?? "Unknown", contentType: .dateView)
     
     private lazy var additionalInfoStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [authorView, dateView])
         stackView.axis = .horizontal
         stackView.distribution = .equalSpacing
-
         return stackView
     }()
     
@@ -72,7 +72,7 @@ final class NewsDetailViewController: UIViewController {
         contentView.backgroundColor = .systemBackground
         viewModel.delegate = self
         
-        newsImage.image = viewModel.loadImage(newsImageString: viewModel.news?.image ?? NewsImages.placeholderURL)
+        newsImage.load(stringURL: viewModel.news?.image)
         newsTitle.text = viewModel.news?.title
         newsDescription.text = viewModel.news?.content
     }

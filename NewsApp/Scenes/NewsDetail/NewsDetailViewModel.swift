@@ -17,19 +17,5 @@ final class NewsDetailViewModel {
     weak var delegate: NewsDetailViewModelDelegate?
     private var service = NetworkManager()
 
-    //private var service = NetworkManager()
     var news: Articles?
-    
-//    init(delegate: NewsDetailViewModelDelegate) {
-//        self.delegate = delegate
-//    }
-    
-    func loadImage(newsImageString: String) -> UIImage {
-        var imageResult: UIImage?
-        service.downloadImage(from: newsImageString) { (image) in
-            imageResult = image
-        }
-        return imageResult ?? NewsImages.placeholder!
-    }
-    
 }
