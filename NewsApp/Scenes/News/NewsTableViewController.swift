@@ -12,6 +12,7 @@ final class NewsTableViewController: UIViewController {
     var tableView = UITableView()
     var viewModel: NewsViewModel!
     var searchedText: String = ""
+    var page = 1
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,9 +85,16 @@ extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
         return viewModel?.getNumberOfRows() ?? 0
     }
     
-//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//
-//    }
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let offsetY         = scrollView.contentOffset.y
+        let contentHeight   = scrollView.contentSize.height
+        let height          = scrollView.frame.size.height
+        
+        if offsetY > contentHeight - height {
+            page += 1
+            viewModel.loadNews(key: searchedText, type: .search, page: page)
+        }
+    }
 }
 
 //MARK: - Extension UISearchResultsUPdating & UISearchControllerDelegate
@@ -101,7 +109,7 @@ extension NewsTableViewController: UISearchBarDelegate {
     
     @objc private func searchNewText(text: String) {
         if self.searchedText.count > 3 {
-            viewModel.loadNews(key: searchedText, type: .search, page: 1)
+            viewModel.loadNews(key: searchedText, type: .search, page: page)
         }
     }
 }

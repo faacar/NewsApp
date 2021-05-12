@@ -9,7 +9,15 @@ import Foundation
 // Sample: https://newsapi.org/v2/everything?q=besiktas&page=1&apiKey=44f5a016b63440daa678e233a475b97f
 
 struct NewsModel: Codable {
+    let status: String
+    let totalResults: Int
     let articles: [Articles]
+    
+    enum CodingKeys: String, CodingKey {
+        case status = "status"
+        case articles = "articles"
+        case totalResults = "totalResults"
+    }
 }
 
 struct Articles: Codable {

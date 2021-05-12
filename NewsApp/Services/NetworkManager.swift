@@ -28,10 +28,9 @@ final class NetworkManager {
         let stringForUrl = type == .listHeadlines ? headlinesEndPoint : searchEndPoint
         
         guard let url = URL(string: stringForUrl) else {
-            completionHandler(.failure(.invalidUsername))
+            completionHandler(.failure(.invalidData))
             return
         }
-        print("URLLLLL---\(url)")
         let session = URLSession.shared
         let dataTask = session.dataTask(with: url) { (data, response, error) in
             if error == nil && data != nil {
@@ -39,6 +38,9 @@ final class NetworkManager {
 
                 do {
                     let news = try decoder.decode(NewsModel.self, from: data!)
+                    if news.status == "error" {
+                        completionHandler(.failure(.requestLimit))
+                    }
                     completionHandler(.success(news.articles))
 
                 } catch {
