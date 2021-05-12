@@ -16,18 +16,26 @@ final class NewsTableViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNavigationController()
         configureTableView()
         showLoadingView()
         configureSearchController()
-        title = "Appcent News App"
+
         viewModel.delegate = self
         viewModel.loadNews(key: nil, type: .listHeadlines, page: 1)
-        //viewModel = NewsViewModel(delegate: self)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
+    }
+    
+    private func configureNavigationController() {
+        
+        title = "Appcent News App"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem?.tintColor = UIColor.black
     }
     
     private func configureSearchController() {
@@ -65,7 +73,7 @@ extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NewsCell.cellId,for: indexPath) as! NewsCell
         let cellItem = viewModel.news[indexPath.row]
-        
+        cell.selectionStyle = .none
         cell.title.text = cellItem.title
         cell.newsDescription.text = cellItem.description
         cell.newsImage.image = viewModel.loadImage(newsImageString: cellItem.image ?? "")

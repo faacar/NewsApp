@@ -17,28 +17,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = createTabbar()
+        window?.rootViewController = NewsTabBarController()
         window?.makeKeyAndVisible()
-        
-    }
-    
-    private func createTabbar() -> UITabBarController {
-        let tabbar = UITabBarController()
-        UITabBar.appearance().tintColor = .black
-        tabbar.viewControllers = [createNewsVC(), createFavoritesVC()]
-        return tabbar
-    }
-    
-    private func createNewsVC() -> UINavigationController {
-        let newsVC = NewsTableViewController()
-        newsVC.tabBarItem = UITabBarItem(title: "News", image: UIImage(systemName: NewsImages.newsImageSF), tag: 0)
-        return UINavigationController(rootViewController: newsVC)
-    }
-    
-    private func createFavoritesVC() -> UINavigationController {
-        let favoritesVC = FavoritesViewController()
-        favoritesVC.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: NewsImages.favoritesImageSF), tag: 1)
-        return UINavigationController(rootViewController: favoritesVC)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -10,10 +10,10 @@ import SnapKit
 
 final class NewsDetailViewController: UIViewController {
     
+//MARK: - Properties
     var viewModel = NewsDetailViewModel()
     
 // MARK: - UI Properties
-    
     private lazy var newsImage: UIImageView = {
         let image = UIImageView()
         image.sizeToFit()
@@ -64,17 +64,33 @@ final class NewsDetailViewController: UIViewController {
     }()
     
 // MARK: - LifeCycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubviews()
+        configureNavigationTabBar()
+        configureNavigationController()
+        
         scrollView.backgroundColor = .systemBackground
         contentView.backgroundColor = .systemBackground
+
         viewModel.delegate = self
-        
         newsImage.load(stringURL: viewModel.news?.image)
         newsTitle.text = viewModel.news?.title
         newsDescription.text = viewModel.news?.content
+    }
+    
+    private func configureNavigationController() {
+        title = "News Detail"
+        navigationController?.navigationBar.prefersLargeTitles = false
+    }
+    
+    private func configureNavigationTabBar() {
+        let favoriteButtonImage = UIImage(systemName: NewsImages.favoritesImageSF)?.withTintColor(UIColor.black, renderingMode: .alwaysOriginal)
+        let favoriteButton = UIBarButtonItem(image: favoriteButtonImage, style: .plain, target: self, action: #selector(favoriteButtonClicked))
+        
+        let shareButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareButtonClicked))
+        shareButton.tintColor = .black
+        navigationItem.rightBarButtonItems = [favoriteButton, shareButton]
     }
     
     private func addSubviews() {
@@ -87,6 +103,7 @@ final class NewsDetailViewController: UIViewController {
         view.addSubview(newsPageButton)
     }
     
+//MARK: - Configure UI
     override func viewDidLayoutSubviews() {
         
         newsImage.snp.makeConstraints { (make) in
@@ -138,11 +155,24 @@ final class NewsDetailViewController: UIViewController {
             make.height.equalTo(view.snp.height).multipliedBy(0.05)
         }
     }
+    
+//MARK: - Button Actions
+    @objc func favoriteButtonClicked() {
+        print("favorite button clicked")
+    }
+    
+    @objc func shareButtonClicked() {
+        if let title = viewModel.news?.title, let newsWebsiteURL = NSURL(string: (viewModel.news?.urlLink)!) {
+            let shareObjects = [title, newsWebsiteURL] as [Any]
+            let activityViewController = UIActivityViewController(activityItems: shareObjects, applicationActivities: nil)
+            self.present(activityViewController, animated: true, completion: nil)
+        }
+    }
 }
 
 //MARK: - Extension NewsDetailViewModelDelegate
-
 extension NewsDetailViewController: NewsDetailViewModelDelegate {
+    
     func apiRequestCompleted() {
         print("done")
     }
