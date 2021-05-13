@@ -76,13 +76,14 @@ extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
         cell.selectionStyle = .none
         cell.title.text = cellItem.title
         cell.newsDescription.text = cellItem.description
-        cell.newsImage.image = viewModel.loadImage(newsImageString: cellItem.image ?? "")
+        DispatchQueue.main.async {
+            cell.newsImage.image = self.viewModel.loadImage(newsImageString: cellItem.image ?? "")            
+        }
 
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//TODO: - Fix the bug (When i going to the new page and coming back, the data page is not updated.)
         let destinationVc = NewsDetailViewController()
         destinationVc.viewModel.news = viewModel.news[indexPath.row]
         navigationController?.pushViewController(destinationVc, animated: true)
@@ -109,7 +110,6 @@ extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 //MARK: - Extension UISearchResultsUPdating & UISearchControllerDelegate
-
 extension NewsTableViewController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

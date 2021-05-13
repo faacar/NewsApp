@@ -170,7 +170,6 @@ final class NewsDetailViewController: UIViewController {
     }
     
     @objc func shareButtonClicked() {
-        viewModel.getResult()
         if let title = viewModel.news?.title, let newsWebsiteURL = NSURL(string: (viewModel.news?.urlLink)!) {
             let shareObjects = [title, newsWebsiteURL] as [Any]
             let activityViewController = UIActivityViewController(activityItems: shareObjects, applicationActivities: nil)

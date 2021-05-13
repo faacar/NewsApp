@@ -22,7 +22,7 @@ final class NewsTabBarController: UITabBarController {
     }
     
     private func createFavoritesVC() -> UINavigationController {
-        let favoritesVC = FavoritesViewController()
+        let favoritesVC = FavoritesTableViewController()
         favoritesVC.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: NewsImages.favoritesImageSF), tag: 1)
         return UINavigationController(rootViewController: favoritesVC)
     }

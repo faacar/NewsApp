@@ -19,8 +19,6 @@ final class NewsDetailViewModel {
     private var service = NetworkManager()
 
     var news: Articles?
-    var savedNews: [FavoriteNewsItem] = []//
-
 }
 
 //MARK: - Core Data
@@ -39,15 +37,6 @@ extension NewsDetailViewModel {
         do {
             try context.save()
             
-        } catch {
-            
-        }
-    }
-    
-    func getResult() {//
-        do {
-            savedNews = try context.fetch(FavoriteNewsItem.fetchRequest())
-            print(savedNews[0].title)
         } catch {
             
         }
