@@ -29,4 +29,18 @@ extension UIViewController {
         containerView?.removeFromSuperview()
         containerView = nil
     }
+    
+    func presentAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okeyAction = UIAlertAction(title: "Okey", style: .default, handler: nil)
+        
+        alertController.addAction(okeyAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func showEmptyStateView(title: String, message: String, imageString: String, in view: UIView) {
+        let emptyStateView = NewsEmptyStateView(title: title, message: message, image: imageString)
+        emptyStateView.frame = view.bounds
+        view.addSubview(emptyStateView)
+    }
 }

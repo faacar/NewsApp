@@ -166,6 +166,7 @@ final class NewsDetailViewController: UIViewController {
     
     @objc func favoriteButtonClicked() {
         print("favorite button clicked")
+        self.presentAlert(title: "Added Favorites", message: "This news added favorites for you!")
         viewModel.favoriteNews()
     }
     

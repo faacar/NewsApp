@@ -9,11 +9,13 @@ import UIKit
 
 final class NewsTableViewController: UIViewController {
     
+//MARK: - Properties
     var tableView = UITableView()
     var viewModel = NewsViewModel()
     var searchedText: String = ""
     var page = 1
 
+//MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationController()
@@ -31,8 +33,7 @@ final class NewsTableViewController: UIViewController {
     }
     
     private func configureNavigationController() {
-        
-        title = "Appcent News App"
+        navigationItem.title = "Appcent News App"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = UIColor.black
@@ -55,7 +56,6 @@ final class NewsTableViewController: UIViewController {
 }
 
 //MARK: - Edxtension NewsViewModelDelegate
-
 extension NewsTableViewController: NewsViewModelDelegate {
     
     func apiRequestCompleted() {
@@ -67,7 +67,6 @@ extension NewsTableViewController: NewsViewModelDelegate {
 }
 
 // MARK: - Extension UITableViewDataSource & UITableViewDelegate
-
 extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

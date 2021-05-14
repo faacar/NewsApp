@@ -7,15 +7,17 @@
 
 import UIKit
 
-class FavoritesTableViewController: UIViewController {
+final class FavoritesTableViewController: UIViewController {
 
+//MARK: - Properties
     var tableView = UITableView()
     let viewModel = FavoritesTableViewModel()
     
+//MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
-        view.backgroundColor = .systemOrange
+        view.backgroundColor = .systemBackground
     }
     
     override func viewDidLayoutSubviews() {
@@ -25,8 +27,8 @@ class FavoritesTableViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
         viewModel.getFavoritedNews()
+        isEmpty()
     }
     
     private func configureTableView() {
@@ -37,8 +39,24 @@ class FavoritesTableViewController: UIViewController {
         tableView.register(NewsCell.self, forCellReuseIdentifier: NewsCell.cellId)
         tableView.rowHeight = 140
     }
+    
+    private func isEmpty() {
+        print("fav count: \(viewModel.favoritedNews.count)")
+        if viewModel.favoritedNews.count == 0 {
+            tableView.isHidden = true
+            showEmptyStateView(title: "Add a favortite news.", message: "We'll save your favorites here for you.", imageString: NewsImages.circleHeartImageSF, in: view)
+        } else {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.tableView.isHidden = false
+                self.view.bringSubviewToFront(self.tableView)
+            }
+        }
+    }
 
 }
+
+//MARK: - Extension UITableViewDelegate & UITableViewDataSource
 
 extension FavoritesTableViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -51,6 +69,7 @@ extension FavoritesTableViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         print(indexPath.row)
     }
     
@@ -69,6 +88,7 @@ extension FavoritesTableViewController: UITableViewDelegate, UITableViewDataSour
             self.viewModel.deleteFavoriteNews(item: self.viewModel.favoritedNews[indexPath.row])
             viewModel.getFavoritedNews()
             tableView.deleteRows(at: [indexPath], with: .fade)
+            isEmpty()
         }
     }
 }
