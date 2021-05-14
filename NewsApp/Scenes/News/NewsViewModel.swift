@@ -27,7 +27,6 @@ final class NewsViewModel {
             self.delegate?.apiRequestCompleted()
             switch result {
             case .success(let news):
-                print(page)
                 page == 1 ? self.news = news : self.news.append(contentsOf: news)
                 
             case .failure(let error):

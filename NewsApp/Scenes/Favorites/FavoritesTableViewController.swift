@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 
 final class FavoritesTableViewController: UIViewController {
 
@@ -41,7 +42,6 @@ final class FavoritesTableViewController: UIViewController {
     }
     
     private func isEmpty() {
-        print("fav count: \(viewModel.favoritedNews.count)")
         if viewModel.favoritedNews.count == 0 {
             tableView.isHidden = true
             showEmptyStateView(title: "Add a favortite news.", message: "We'll save your favorites here for you.", imageString: NewsImages.circleHeartImageSF, in: view)
@@ -68,6 +68,13 @@ extension FavoritesTableViewController: UITableViewDelegate, UITableViewDataSour
         return viewModel.favoritedNews.count
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let url = URL(string: viewModel.favoritedNews[indexPath.row].urlLink!) else { return }
+        let destinationVC = SFSafariViewController(url: url)
+        destinationVC.delegate = self
+        present(destinationVC, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NewsCell.cellId, for: indexPath) as! NewsCell
         let cellItem = viewModel.favoritedNews[indexPath.row]
@@ -85,5 +92,13 @@ extension FavoritesTableViewController: UITableViewDelegate, UITableViewDataSour
             tableView.deleteRows(at: [indexPath], with: .fade)
             isEmpty()
         }
+    }
+}
+
+//MARK: - SFSafariViewControllerDelegate
+extension FavoritesTableViewController: SFSafariViewControllerDelegate {
+
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        dismiss(animated: true)
     }
 }

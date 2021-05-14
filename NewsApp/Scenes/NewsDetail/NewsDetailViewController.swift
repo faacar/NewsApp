@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import SafariServices
 
 final class NewsDetailViewController: UIViewController {
     
@@ -158,13 +159,14 @@ final class NewsDetailViewController: UIViewController {
     
 //MARK: - Button Actions
     @objc func newsPageButtonClicked() {
-        let destinationVC = WebViewController()
-        destinationVC.url = (viewModel.news?.urlLink)!
-        present(destinationVC, animated: true, completion: nil)
+        guard let url = URL(string: (viewModel.news?.urlLink)!) else { return }
+            let destinationVC = SFSafariViewController(url: url)
+            print(url)
+            destinationVC.delegate = self
+            present(destinationVC, animated: true)
     }
     
     @objc func favoriteButtonClicked() {
-        print("favorite button clicked")
         self.presentAlert(title: "Added Favorites", message: "This news added favorites for you!")
         viewModel.favoriteNews()
     }
@@ -175,5 +177,13 @@ final class NewsDetailViewController: UIViewController {
             let activityViewController = UIActivityViewController(activityItems: shareObjects, applicationActivities: nil)
             self.present(activityViewController, animated: true, completion: nil)
         }
+    }
+}
+
+//MARK: - SFSafariViewControllerDelegate
+extension NewsDetailViewController: SFSafariViewControllerDelegate {
+
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        dismiss(animated: true)
     }
 }

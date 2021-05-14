@@ -21,17 +21,16 @@ final class FavoritesTableViewModel {
         do {
             favoritedNews = try context.fetch(FavoriteNewsItem.fetchRequest())
         } catch {
-            
+            print("coreData error")
         }
     }
     
     func deleteFavoriteNews(item: FavoriteNewsItem) {
         context.delete(item)
-        
         do {
             try context.save()
         } catch {
-            
+            print("coreData error")
         }
     }
 }
