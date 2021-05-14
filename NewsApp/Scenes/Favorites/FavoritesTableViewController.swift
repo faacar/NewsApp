@@ -68,11 +68,6 @@ extension FavoritesTableViewController: UITableViewDelegate, UITableViewDataSour
         return viewModel.favoritedNews.count
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        print(indexPath.row)
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NewsCell.cellId, for: indexPath) as! NewsCell
         let cellItem = viewModel.favoritedNews[indexPath.row]

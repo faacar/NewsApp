@@ -10,6 +10,7 @@ import SnapKit
 
 final class NewsCell: UITableViewCell {
     
+//MARK: - Properties
     static let cellId = "newsCell"
     lazy var title: UILabel = {
         let title = UILabel()
@@ -30,6 +31,7 @@ final class NewsCell: UITableViewCell {
         return image
     }()
     
+//MARK: - Life Cycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(title)
@@ -43,10 +45,8 @@ final class NewsCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-//        contentView.backgroundColor = .systemGray4
-//        contentView.layer.masksToBounds = true
-//        contentView.layer.cornerRadius = 15.0
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
+        
         title.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.left.equalToSuperview()
@@ -63,7 +63,7 @@ final class NewsCell: UITableViewCell {
         
         newsImage.snp.makeConstraints { (make) in
             make.top.equalTo(newsDescription.snp.top)
-            make.left.equalTo(newsDescription.snp.right)
+            make.left.equalTo(newsDescription.snp.right).offset(3)
             make.bottom.equalToSuperview()
             make.right.equalToSuperview()
         }

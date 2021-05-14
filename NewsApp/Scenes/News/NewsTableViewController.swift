@@ -76,7 +76,7 @@ extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
         cell.title.text = cellItem.title
         cell.newsDescription.text = cellItem.description
         DispatchQueue.main.async {
-            cell.newsImage.image = self.viewModel.loadImage(newsImageString: cellItem.image ?? "")            
+            cell.newsImage.image = self.viewModel.loadImage(newsImageString: cellItem.image ?? "")
         }
 
         return cell

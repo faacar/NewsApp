@@ -74,7 +74,6 @@ final class NewsDetailViewController: UIViewController {
         scrollView.backgroundColor = .systemBackground
         contentView.backgroundColor = .systemBackground
 
-        viewModel.delegate = self
         newsImage.load(stringURL: viewModel.news?.image)
         newsTitle.text = viewModel.news?.title
         newsDescription.text = viewModel.news?.content
@@ -176,13 +175,5 @@ final class NewsDetailViewController: UIViewController {
             let activityViewController = UIActivityViewController(activityItems: shareObjects, applicationActivities: nil)
             self.present(activityViewController, animated: true, completion: nil)
         }
-    }
-}
-
-//MARK: - Extension NewsDetailViewModelDelegate
-extension NewsDetailViewController: NewsDetailViewModelDelegate {
-    
-    func apiRequestCompleted() {
-        print("done")
     }
 }

@@ -8,14 +8,9 @@
 import UIKit
 import CoreData
 
-protocol NewsDetailViewModelDelegate: class {
-    func apiRequestCompleted()
-}
-
 final class NewsDetailViewModel {
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    weak var delegate: NewsDetailViewModelDelegate?
     private var service = NetworkManager()
 
     var news: Articles?
@@ -38,7 +33,7 @@ extension NewsDetailViewModel {
             try context.save()
             
         } catch {
-            
+            print("coreData error")
         }
     }
 }
