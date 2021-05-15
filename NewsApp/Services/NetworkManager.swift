@@ -16,7 +16,6 @@ final class NetworkManager {
     //https://newsapi.org/v2/everything?q=besiktas&page=1&apiKey=44f5a016b63440daa678e233a475b97f
     //https://newsapi.org/v2/top-headlines?country=tr&apiKey=44f5a016b63440daa678e233a475b97f
     
-    let cache = NSCache<NSString, UIImage>()
     private let baseURL = "https://newsapi.org/v2"
     private let apiKey = "44f5a016b63440daa678e233a475b97f"
     
@@ -50,35 +49,6 @@ final class NetworkManager {
             }
         }
         dataTask.resume()
-    }
-    
-    func downloadImage(from urlString: String, completionHandler: @escaping (UIImage?) -> Void) {
-        let cacheKey = NSString(string: urlString)
-        if let image = cache.object(forKey: cacheKey) {
-            completionHandler(image)
-            return
-        }
-        
-        guard let url = URL(string: urlString) else {
-            completionHandler(nil)
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
-            guard let self = self,
-                error == nil,
-                let response = response as? HTTPURLResponse, response.statusCode == 200,
-                let data = data,
-                let image = UIImage(data: data)
-            else {
-                completionHandler(nil)
-                return
-            }
-            
-            self.cache.setObject(image, forKey: cacheKey)
-            completionHandler(image)
-        }
-        task.resume()
     }
 }
 
