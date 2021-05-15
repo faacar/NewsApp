@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1F5684E382AAB5018FD39C1E /* Pods_NewsApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA17F051AA5BA002BFA63101 /* Pods_NewsApp.framework */; };
-		72357A2E264AB83200B5EC67 /* UIImageView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72357A2D264AB83200B5EC67 /* UIImageView+Ext.swift */; };
 		72777417264934550071A661 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72777416264934550071A661 /* AppDelegate.swift */; };
 		72777419264934550071A661 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72777418264934550071A661 /* SceneDelegate.swift */; };
 		72777420264934570071A661 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7277741F264934570071A661 /* Assets.xcassets */; };
@@ -36,7 +35,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		72357A2D264AB83200B5EC67 /* UIImageView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Ext.swift"; sourceTree = "<group>"; };
 		72777413264934550071A661 /* NewsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		72777416264934550071A661 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		72777418264934550071A661 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -200,7 +198,6 @@
 			isa = PBXGroup;
 			children = (
 				727774692649B11E0071A661 /* UIViewController+Ext.swift */,
-				72357A2D264AB83200B5EC67 /* UIImageView+Ext.swift */,
 				72CB12D1264C060000FB9346 /* String+Ext.swift */,
 				72CB12D4264C061800FB9346 /* Date+Ext.swift */,
 			);
@@ -373,7 +370,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				72357A2E264AB83200B5EC67 /* UIImageView+Ext.swift in Sources */,
 				729E4E4A264EB7F30080A4CE /* NewsEmptyStateView.swift in Sources */,
 				7277744B2649446A0071A661 /* NewsModel.swift in Sources */,
 				7277745426495EDE0071A661 /* NewsError.swift in Sources */,

@@ -76,9 +76,7 @@ extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
         cell.selectionStyle = .none
         cell.title.text = cellItem.title
         cell.newsDescription.text = cellItem.description
-//        DispatchQueue.main.async {
-//            cell.newsImage.image = self.viewModel.loadImage(newsImageString: cellItem.image ?? "")
-//        }
+
         let url = URL(string: viewModel.news[indexPath.row].image ?? "")
         cell.newsImage.kf.setImage(with: url, placeholder: NewsImages.placeholder)
 

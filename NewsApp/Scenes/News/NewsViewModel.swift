@@ -15,7 +15,6 @@ protocol NewsViewModelDelegate: class {
 
 final class NewsViewModel {
     
-
     weak var delegate: NewsViewModelDelegate?
     private var service = NetworkManager()
     

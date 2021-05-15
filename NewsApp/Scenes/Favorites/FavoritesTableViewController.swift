@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 import SafariServices
 
 final class FavoritesTableViewController: UIViewController {
@@ -53,7 +54,6 @@ final class FavoritesTableViewController: UIViewController {
             }
         }
     }
-
 }
 
 //MARK: - Extension UITableViewDelegate & UITableViewDataSource
@@ -78,10 +78,11 @@ extension FavoritesTableViewController: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NewsCell.cellId, for: indexPath) as! NewsCell
         let cellItem = viewModel.favoritedNews[indexPath.row]
+        let url = URL(string: cellItem.image ?? "")
         cell.selectionStyle = .none
         cell.title.text = cellItem.title
         cell.newsDescription.text = cellItem.newsDescription
-        cell.newsImage.load(stringURL: cellItem.image)
+        cell.newsImage.kf.setImage(with: url, placeholder: NewsImages.placeholder)
         return cell
     }
     

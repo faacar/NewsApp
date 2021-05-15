@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 import SafariServices
 
 final class NewsDetailViewController: UIViewController {
@@ -75,7 +76,8 @@ final class NewsDetailViewController: UIViewController {
         scrollView.backgroundColor = .systemBackground
         contentView.backgroundColor = .systemBackground
 
-        newsImage.load(stringURL: viewModel.news?.image)
+        let url = URL(string: viewModel.news?.image ?? "")
+        newsImage.kf.setImage(with: url, placeholder: NewsImages.placeholder)
         newsTitle.text = viewModel.news?.title
         newsDescription.text = viewModel.news?.content
     }
